@@ -3,10 +3,10 @@
 
 <div id="container">
     <div id="weather">
+        <% if(error === null){%>
         <div> <%= description %> </div>
         <h1> <%= temp %> </h1>
         <div> <%= city %> </div>
-
     </div>
     <div>
         <form id="change-city" method="POST" action="/">
@@ -14,6 +14,10 @@
             <br>
             <input type="submit" value="Save Changes">
         </form>
+        <% } else { %>
+            <h2> <%= error %> </h2>
+            <a href='/' style="color:white;">Try again</a>
+        <% } %>
     </div>
 </div>
 
