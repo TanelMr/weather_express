@@ -3,10 +3,11 @@ const express = require ('express');
 const path = require("path");
 const app = express ();
 const fetch = require('node-fetch');
-const {response} = require("express");
+const bodyparser = require('body-parser');
+
 
 //public directory
-app.use(express.static('public'));
+//app.use(express.static('public'));
 //add views template engine
 app.set('view engine', 'ejs');
 //add views directory path
@@ -29,15 +30,13 @@ app.get('/',(req, res)=>{
             console.log(description);
             console.log(city);
             console.log(temp);
-        })
         res.render('index', {
             description: description,
             city: city,
             temp: temp
+         })
       })
     })
-
-
 
 //listen on port 3000
 app.listen(3000, ()=>{
