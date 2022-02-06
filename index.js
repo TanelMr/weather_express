@@ -5,9 +5,13 @@ const app = express ();
 const fetch = require('node-fetch');
 const bodyparser = require('body-parser');
 
+//use bodyparser
+app.use(bodyparser.urlencoded({extended:true}));
+
 
 //public directory
-//app.use(express.static('public'));
+app.use(express.static('public'));
+
 //add views template engine
 app.set('view engine', 'ejs');
 //add views directory path
@@ -27,9 +31,6 @@ app.get('/',(req, res)=>{
             let description = data.weather[0].description;
             let city = data.name;
             let temp = Math.round(parseFloat(data.main.temp)-273.15);
-            console.log(description);
-            console.log(city);
-            console.log(temp);
         res.render('index', {
             description: description,
             city: city,
@@ -37,6 +38,27 @@ app.get('/',(req, res)=>{
          })
       })
     })
+
+
+//post
+app.post ('/', (req, res)=>{
+    let city = req.body.linn
+    fetch (`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`)
+        .then ((response) =>{
+            return response.json()
+        })
+        .then ((data) =>{
+            let description = data.weather[0].description;
+            let city = data.name;
+            let temp = Math.round(parseFloat(data.main.temp)-273.15);
+            res.render('index', {
+                description: description,
+                city: city,
+                temp: temp
+            })
+        })
+
+})
 
 //listen on port 3000
 app.listen(3000, ()=>{
